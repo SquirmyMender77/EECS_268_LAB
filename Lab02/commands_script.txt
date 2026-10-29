@@ -1,0 +1,11 @@
+START itunes
+START firefox
+START putty
+CALL play no
+CALL navigate no
+RETURN
+RETURN
+RETURN
+RETURN
+RETURN
+RETURN

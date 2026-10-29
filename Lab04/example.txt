@@ -1,0 +1,48 @@
+NAVIGATE http://google.com
+NAVIGATE http://reddit.com
+NAVIGATE http://facebook.com
+NAVIGATE http://myspace.com
+NAVIGATE http://myspace.com
+NAVIGATE http://myspace.com
+NAVIGATE http://myspace.com
+NAVIGATE http://myspace.com
+NAVIGATE http://myspace.com
+NAVIGATE http://myspace.com
+NAVIGATE http://myspace.com
+NAVIGATE http://myspace.com
+NAVIGATE http://myspace.com
+NAVIGATE http://myspace.com
+HISTORY
+BACK
+BACK
+HISTORY
+FORWARD
+HISTORY
+FORWARD
+HISTORY
+FORWARD
+HISTORY
+FORWARD
+HISTORY
+FORWARD
+HISTORY
+FORWARD
+HISTORY
+FORWARD
+HISTORY
+HISTORY
+BACK
+BACK
+BACK
+BACK
+HISTORY
+BACK
+BACK
+BACK
+BACK
+HISTORY
+NAVIGATE http://ku.edu
+FORWARD
+HISTORY
+BACK
+HISTORY

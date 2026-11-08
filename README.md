@@ -3,7 +3,7 @@
 
 ## Lab01
 
-`boardgame.py`, `driver.py`, `executive.py`, `gibbons-boardgames.tsv.txt`
+ `driver.py`, `executive.py`, `gibbons-boardgames.tsv.txt`
 
 ## Lab02
 

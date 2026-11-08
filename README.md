@@ -25,4 +25,8 @@
 
 `main.py`, `sample_file1.txt`, `sample_file2.txt`, `the_blob.py`
 
+## Lab07
+
+`main.py`, `node.py`, `executive.py`, `BST.py`
+
 

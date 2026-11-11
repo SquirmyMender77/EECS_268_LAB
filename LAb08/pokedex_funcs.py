@@ -6,11 +6,59 @@ class pokedex_funcs:
     def __init__(self):
         self.pokedex_internals = Pokedex_internals()
 
-    def Add(self, entry_line):
+    def Add(self, comparison_file):
         try:
-            if self.pokedex_internals_copy.instance_created == True:
-                user_input = input("Which version of the Tree do you want to use (Copy or Original): ")
-                user_input = user_input.lower()
+            try:
+                if self.pokedex_internals_copy.instance_created == True:
+                    user_input = input("Which version of the Tree do you want to use (Copy or Original): ")
+                    user_input = user_input.lower()
+                    user_add = input("Enter an American Pokemon Name, Pokedex ID Number, and Japanese Pokemon Name (comma-separated if you'd be so kind): ")
+                    user_add = user_add.lower()
+                    user_add = user_add.split(",")
+                    while len(user_add) < 3 or len(user_add) > 3 or not user_add[1].isascii() or not user_add[1].isdigit():
+                        user_add = input("Invalid input, please try again: ")
+                        user_add = user_add.lower()
+                        user_add = user_add.split(",")
+                                
+                    for line in comparison_file:
+                        print(user_add[0])
+                        print(line[0])
+                        if user_add[0] == line[0]:
+                            user_add = input("Entry already exists, please try again: ")
+                            user_add = user_add.lower()
+                            user_add = user_add.split(",")
+
+                    for line in comparison_file:
+                        print(user_add[1])
+                        print(line[1])
+                        if user_add[1] == line[1]:
+                            user_add = input("Entry already exists, please try again: ")
+                            user_add = user_add.lower()
+                            user_add = user_add.split(",")
+
+                    for line in comparison_file:
+                        print(user_add[2])
+                        print(line[2])
+                        if user_add[2] == line[2]:
+                            user_add = input("Entry already exists, please try again: ")
+                            user_add = user_add.lower()
+                            user_add = user_add.split(",")
+
+                    else:
+                        if user_input == "copy":
+                            self.poke = Pokemon(user_add[0], int(user_add[1]), user_add[2])
+                            self.pokedex_internals_copy.add(self.poke)
+
+                        if user_input == "original":
+                            self.poke = Pokemon(user_add[0], int(user_add[1]), user_add[2])
+                            self.pokedex_internals.add(self.poke)
+
+            except IndexError:
+                print("Not enough entries, please try again.")
+                self.Add(comparison_file)
+
+        except AttributeError:
+            try:
                 user_add = input("Enter an American Pokemon Name, Pokedex ID Number, and Japanese Pokemon Name (comma-separated if you'd be so kind): ")
                 user_add = user_add.lower()
                 user_add = user_add.split(",")
@@ -18,64 +66,32 @@ class pokedex_funcs:
                     user_add = input("Invalid input, please try again: ")
                     user_add = user_add.lower()
                     user_add = user_add.split(",")
-                               
-                for a in entry_line:
-                    if user_add[0] == a[0]:
-                        user_add = ("Entry already exists, please try again: ")
+
+                for line in comparison_file:
+                    if user_add[0] == line[0]:
+                        user_add = input("Entry already exists, please try again: ")
                         user_add = user_add.lower()
                         user_add = user_add.split(",")
 
-                for id in entry_line:
-                    if user_add[1] == id[1]:
-                        user_add = ("Entry already exists, please try again: ")
+                for line in comparison_file:
+                    if user_add[1] == line[1]:
+                        user_add = input("Entry already exists, please try again: ")
                         user_add = user_add.lower()
                         user_add = user_add.split(",")
 
-                for j in entry_line:
-                    if user_add[2] == j[2]:
-                        user_add = ("Entry already exists, please try again: ")
+                for line in comparison_file:
+                    if user_add[2] == line[2]:
+                        user_add = input("Entry already exists, please try again: ")
                         user_add = user_add.lower()
                         user_add = user_add.split(",")
-
+                        
                 else:
-                    if user_input == "copy":
-                        self.poke = Pokemon(user_add[0], int(user_add[1]), user_add[2])
-                        self.pokedex_internals_copy.add(self.poke)
+                    self.poke = Pokemon(user_add[0], int(user_add[1]), user_add[2])
+                    self.pokedex_internals.add(self.poke)
 
-                    if user_input == "original":
-                        self.poke = Pokemon(user_add[0], int(user_add[1]), user_add[2])
-                        self.pokedex_internals.add(self.poke)
-
-        except AttributeError:
-            user_add = input("Enter an American Pokemon Name, Pokedex ID Number, and Japanese Pokemon Name (comma-separated if you'd be so kind): ")
-            user_add = user_add.lower()
-            user_add = user_add.split(",")
-            while len(user_add) < 3 or len(user_add) > 3 or not user_add[1].isascii() or not user_add[1].isdigit():
-                user_add = input("Invalid input, please try again: ")
-                user_add = user_add.lower()
-                user_add = user_add.split(",")
-
-            for a in entry_line:
-                if user_add[0] == a[0]:
-                    user_add = ("Entry already exists, please try again: ")
-                    user_add = user_add.lower()
-                    user_add = user_add.split(",")
-
-            for id in entry_line:
-                if user_add[1] == id[1]:
-                    user_add = ("Entry already exists, please try again: ")
-                    user_add = user_add.lower()
-                    user_add = user_add.split(",")
-
-            for j in entry_line:
-                if user_add[2] == j[2]:
-                    user_add = ("Entry already exists, please try again: ")
-                    user_add = user_add.lower()
-                    user_add = user_add.split(",")    
-                    
-            else:
-                self.poke = Pokemon(user_add[0], int(user_add[1]), user_add[2])
-                self.pokedex_internals.add(self.poke)
+            except IndexError:
+                print("Not enough entries, please try again.")
+                self.Add(comparison_file)
 
     def search(self):
         try:

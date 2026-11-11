@@ -32,4 +32,4 @@ class Pokemon:
         return NotImplemented
 
     def __str__(self):
-        return(f"{self.a_name}, {self._id}, {self.j_name}")
+        return(f"{self.a_name},{self._id},{self.j_name}")

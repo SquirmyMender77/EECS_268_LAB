@@ -21,26 +21,20 @@ class pokedex_funcs:
                         user_add = user_add.split(",")
                                 
                     for line in comparison_file:
-                        print(user_add[0])
-                        print(line[0])
-                        if user_add[0] == line[0]:
-                            user_add = input("Entry already exists, please try again: ")
+                        while user_add[0] == line[0]:
+                            user_add = input(f"Entry {user_add[0]} already exists, please try again: ")
                             user_add = user_add.lower()
                             user_add = user_add.split(",")
 
                     for line in comparison_file:
-                        print(user_add[1])
-                        print(line[1])
-                        if user_add[1] == line[1]:
-                            user_add = input("Entry already exists, please try again: ")
+                        while user_add[1] == line[1]:
+                            user_add = input(f"Entry {user_add[1]} already exists, please try again: ")
                             user_add = user_add.lower()
                             user_add = user_add.split(",")
 
                     for line in comparison_file:
-                        print(user_add[2])
-                        print(line[2])
-                        if user_add[2] == line[2]:
-                            user_add = input("Entry already exists, please try again: ")
+                        while user_add[2] == line[2]:
+                            user_add = input(f"Entry {user_add[2]} already exists, please try again: ")
                             user_add = user_add.lower()
                             user_add = user_add.split(",")
 
@@ -102,18 +96,21 @@ class pokedex_funcs:
                 while user_input != "copy" and user_input != "original":
                     user_input = input("Enter a vaild Tree version: ")
                     user_input = user_input.lower()
+
+                while not user_search.isascii() or not user_search.isdigit():
+                    user_search = input("Enter a valid pokedex ID: ")
                 
                 if user_input == "copy":
-                    self.poke = Pokemon(self.pokedex_internals_copy.current_A_name, self.pokedex_internals_copy.current_ID, self.pokedex_internals_copy.current_J_name)
                     self.pokedex_internals_copy.search(self.pokedex_internals_copy.root, int(user_search))
 
                 if user_input == "original":
-                    self.poke = Pokemon(self.pokedex_internals.current_A_name, self.pokedex_internals.current_ID, self.pokedex_internals.current_J_name)
                     self.pokedex_internals.search(self.pokedex_internals.root, int(user_search))
 
         except AttributeError:
-            user_input = input("Enter a pokedex ID: ")
-            self.poke = Pokemon(self.pokedex_internals.current_A_name, self.pokedex_internals.current_ID, self.pokedex_internals.current_J_name)
+            user_search = input("Enter a pokedex ID: ")
+            while not user_search.isdigit() or user_search.isascii():
+                user_search = input("Emter a valid pokedex ID: ")
+
             self.pokedex_internals.search(self.pokedex_internals.root, int(user_input))
             
     def print(self):
@@ -148,17 +145,18 @@ class pokedex_funcs:
             
                 if user_input == "copy":
                     user_input = input("Enter a Pokemon ID to remove: ")
-                    self.pokedex_internals_copy.remove(1, int(user_input))
+                    self.pokedex_internals_copy.remove(self.pokedex_internals_copy.root, int(user_input))
             
                 if user_input == "original":
                     user_input = input("Enter a Pokemon ID to remove: ")
-                    self.pokedex_internals.remove(1, int(user_input))
+                    self.pokedex_internals.remove(self.pokedex_internals.root, int(user_input))
 
         except AttributeError:
             user_input = input("Enter a pokemon ID: ")
-            self.pokedex_internals.remove(1, int(user_input))
+            self.pokedex_internals.remove(self.pokedex_internals.root, int(user_input))
 
     def copy(self, OG_file):
         self.pokedex_internals_copy = Pokedex_internals()
         for line in OG_file:
-            self.pokedex_internals_copy.add(int(line[1]))
+            self.poke_copy = Pokemon(line[0], int(line[1]), line[2])
+            self.pokedex_internals_copy.add(self.poke_copy)

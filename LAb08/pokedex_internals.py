@@ -65,8 +65,65 @@ class Pokedex_internals:
         if option == "post" or option == "post-order" or option == "postorder":
             self._post_order_recursive(self.root)
 
-    def remove(self, removed, key):
-        l=1
+    def remove(self, current_pokemon, key):
+        if current_pokemon.entry < key:
+            if current_pokemon.left.entry != key:
+                self.remove(current_pokemon.left, key)
+
+        if current_pokemon.entry > key:
+            if current_pokemon.right.entry != key:
+                self.remove(current_pokemon.right, key)
+
+        if current_pokemon.right.entry == key:
+            removed_pokemon = current_pokemon.right
+            if removed_pokemon.right == None and removed_pokemon.left == None:
+                print(f"{current_pokemon.right} removed")
+                current_pokemon.right = None
+                return
+
+            if removed_pokemon.right != None and removed_pokemon.left == None:
+                print(f"{removed_pokemon.right} removed")
+                current_pokemon = removed_pokemon.right
+
+            if removed_pokemon.right == None and removed_pokemon.left != None:
+                print(f"{removed_pokemon.left} removed")
+                current_pokemon = removed_pokemon.left
+
+            if removed_pokemon.right != None and removed_pokemon.left != None:
+                two_child_removed_pokemon = removed_pokemon
+                self.remove(two_child_removed_pokemon.right, key)
+                if two_child_removed_pokemon.entry < two_child_removed_pokemon.right.entry:
+                    self.remove(removed_pokemon.right, key)
+                    if two_child_removed_pokemon.right == None:
+                        print(f"{removed_pokemon} removed")
+                        removed_pokemon = two_child_removed_pokemon
+
+        
+        if current_pokemon.left.entry == key:
+            removed_pokemon = current_pokemon.left
+            if removed_pokemon.right == None and removed_pokemon.left == None:
+                print(f"{current_pokemon.right} removed")
+                current_pokemon.right = None
+                return
+
+            if removed_pokemon.right != None and removed_pokemon.left == None:
+                print(f"{removed_pokemon.right} removed")
+                current_pokemon = removed_pokemon.right
+
+            if removed_pokemon.right == None and removed_pokemon.left != None:
+                print(f"{removed_pokemon.left} removed")
+                current_pokemon = removed_pokemon.left
+
+            if removed_pokemon.right != None and removed_pokemon.left != None:
+                two_child_removed_pokemon = removed_pokemon
+                self.remove(two_child_removed_pokemon.right, key)
+                if two_child_removed_pokemon.entry < two_child_removed_pokemon.right.entry:
+                    self.remove(two_child_removed_pokemon.right, key)
+                    if two_child_removed_pokemon.right == None:
+                        print(f"{removed_pokemon} removed")
+                        removed_pokemon = two_child_removed_pokemon
+
+            
 
     def search(self, current_pokemon, key):
         try:

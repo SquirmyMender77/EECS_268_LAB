@@ -19,19 +19,13 @@ class Pokedex:
                     line = line.lower()
                     line = line.split()
                     self.OG_file.append(line)
-                    self.poke = Pokemon(line[0], int(line[1]), line[2])
-                    self.poke_funcs.pokedex_internals.add(self.poke)
-
             
             for row in self.OG_file: 
-                if len(row) < 3:
-                    self.user_file = input("File is not formatted correctly, please try again: ")
-                    self.pokedex_menu()
-            
-                else:
-                    self.American_names.append(row[0])
-                    self.pokedex_IDs.append(row[1])
-                    self.japanese_names.append(row[2])
+                self.American_names.append(row[0])
+                self.pokedex_IDs.append(row[1])
+                self.japanese_names.append(row[2])
+                self.poke = Pokemon(row[0], int(row[1]), row[2])
+                self.poke_funcs.pokedex_internals.no_text_add(self.poke)
                     
             print("HUMAN VERIFIED")
 
@@ -54,7 +48,7 @@ class Pokedex:
                 
             if len(self.American_names) > 0 and len(self.pokedex_IDs) > 0 and len(self.japanese_names) > 0:
                 if user_input == self.menu_options[0]:
-                    self.poke_funcs.Add(self.OG_file)
+                    self.poke_funcs.Add()
 
                 if user_input == self.menu_options[1]:
                     self.poke_funcs.search()
@@ -67,11 +61,15 @@ class Pokedex:
 
                 if user_input == self.menu_options[4]:
                     try:
-                        if self.poke_funcs.pokedex_internals_copy.instance_created ==  True:                               
-                            print("A copy cannot be created because one already exists.")
+                        if self.poke_funcs.pokedex_internals_copy.instance_created ==  True:
+                            print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"                          
+                                  "A copy cannot be created because one already exists.")
 
                     except AttributeError:
-                        self.poke_funcs.copy(self.OG_file)
+                        print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
+                              "Creating a copy...")
+                        self.poke_funcs.copy(self.poke_funcs.pokedex_internals.root)
+                        print("Copy created successfully")
 
                 if user_input == self.menu_options[5]:
                     exit()

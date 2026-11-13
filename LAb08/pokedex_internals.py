@@ -8,8 +8,33 @@ class Pokedex_internals:
         self.current_A_name = None
         self.copy_file = []
         self.current_ID = None
-        self.current_J_name = None
-        
+        self.current_J_name = None        
+
+    def no_text_add(self, entry):
+        new_pokemon = Pokeball(entry)
+        if self.root is None:
+            self.root = new_pokemon
+        else:
+            self._no_text_add_recursive(self.root, new_pokemon)
+    
+    def _no_text_add_recursive(self, current_pokemon, new_pokemon):
+        if new_pokemon.entry < current_pokemon.entry:
+            if current_pokemon.left is None:
+                current_pokemon.left = new_pokemon
+                
+            else:
+                self._no_text_add_recursive(current_pokemon.left, new_pokemon)
+
+        if new_pokemon.entry > current_pokemon.entry:
+            if current_pokemon.right is None:
+                current_pokemon.right = new_pokemon
+
+
+            else:
+                self._no_text_add_recursive(current_pokemon.right, new_pokemon)
+
+        if new_pokemon.entry == current_pokemon.entry:
+            return
 
     def add(self, entry):
         new_pokemon = Pokeball(entry)
@@ -17,6 +42,31 @@ class Pokedex_internals:
             self.root = new_pokemon
         else:
             self._add_recursive(self.root, new_pokemon)
+
+    def _add_recursive(self, current_pokemon, new_pokemon):
+        if new_pokemon.entry < current_pokemon.entry:
+            if current_pokemon.left is None:
+                current_pokemon.left = new_pokemon
+                print(f"{new_pokemon.entry} added to the Pokedex")
+                return
+                
+            else:
+                self._add_recursive(current_pokemon.left, new_pokemon)
+
+        if new_pokemon.entry > current_pokemon.entry:
+            if current_pokemon.right is None:
+                current_pokemon.right = new_pokemon
+                print(f"{new_pokemon.entry} added to the Pokedex")
+                return
+
+
+            else:
+                self._add_recursive(current_pokemon.right, new_pokemon)
+
+        if new_pokemon.entry == current_pokemon.entry:
+            print(f"Failed to add {new_pokemon.entry} to the Pokedex due to a Duplication Error")
+            return
+
 
     def _pre_order_recursive(self, pokemon):
         if pokemon is not None:
@@ -34,109 +84,85 @@ class Pokedex_internals:
         if pokemon is not None:
             self._post_order_recursive(pokemon.left)
             self._post_order_recursive(pokemon.right)
-            print(pokemon.entry)
-
-    def _add_recursive(self, current_pokemon, new_pokemon):
-        if new_pokemon.entry < current_pokemon.entry:
-            if current_pokemon.left is None:
-                current_pokemon.left = new_pokemon
-                
-            else:
-                self._add_recursive(current_pokemon.left, new_pokemon)
-
-        if new_pokemon.entry > current_pokemon.entry:
-            if current_pokemon.right is None:
-                current_pokemon.right = new_pokemon
-
-            else:
-                self._add_recursive(current_pokemon.right, new_pokemon)
-
-        if new_pokemon.entry == current_pokemon.entry:
-            raise ValueError("Duplicate pokemon will not be added to the tree.")
-        
+            print(pokemon.entry)        
 
     def visit_option(self, option):
         if option == "pre" or option == "pre-order" or option == "preorder":
+            print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
+                  "Printing Entries:\n")
             self._pre_order_recursive(self.root)
+            print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
+                  "Entries printed successfully.")
 
         if option == "in" or option == "in-order" or option == "inorder":
+            print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
+                  "Printing Entries:\n")
             self._in_order_recursive(self.root)
+            print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
+                  "Entries printed successfully.")
 
         if option == "post" or option == "post-order" or option == "postorder":
+            print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
+                  "Printing Entries:\n")
             self._post_order_recursive(self.root)
-
-    def remove(self, current_pokemon, key):
-        if current_pokemon.entry < key:
-            if current_pokemon.left.entry != key:
-                self.remove(current_pokemon.left, key)
-
-        if current_pokemon.entry > key:
-            if current_pokemon.right.entry != key:
-                self.remove(current_pokemon.right, key)
-
-        if current_pokemon.right.entry == key:
-            removed_pokemon = current_pokemon.right
-            if removed_pokemon.right == None and removed_pokemon.left == None:
-                print(f"{current_pokemon.right} removed")
-                current_pokemon.right = None
-                return
-
-            if removed_pokemon.right != None and removed_pokemon.left == None:
-                print(f"{removed_pokemon.right} removed")
-                current_pokemon = removed_pokemon.right
-
-            if removed_pokemon.right == None and removed_pokemon.left != None:
-                print(f"{removed_pokemon.left} removed")
-                current_pokemon = removed_pokemon.left
-
-            if removed_pokemon.right != None and removed_pokemon.left != None:
-                two_child_removed_pokemon = removed_pokemon
-                self.remove(two_child_removed_pokemon.right, key)
-                if two_child_removed_pokemon.entry < two_child_removed_pokemon.right.entry:
-                    self.remove(removed_pokemon.right, key)
-                    if two_child_removed_pokemon.right == None:
-                        print(f"{removed_pokemon} removed")
-                        removed_pokemon = two_child_removed_pokemon
-
+            print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
+                  "Entries printed successfully.")
+    
+    def remove(self, key):
+        self.root = self._rec_remove(self.root, key)
         
-        if current_pokemon.left.entry == key:
-            removed_pokemon = current_pokemon.left
-            if removed_pokemon.right == None and removed_pokemon.left == None:
-                print(f"{current_pokemon.right} removed")
-                current_pokemon.right = None
-                return
+    def _rec_remove(self, current_pokemon, key):
+        if current_pokemon == None:
+            print(f"Pokemon ID {key} does not exist")
+            return
 
-            if removed_pokemon.right != None and removed_pokemon.left == None:
-                print(f"{removed_pokemon.right} removed")
-                current_pokemon = removed_pokemon.right
+        if key > current_pokemon.entry:
+            current_pokemon.right = self._rec_remove(current_pokemon.right, key)
+            return current_pokemon
 
-            if removed_pokemon.right == None and removed_pokemon.left != None:
-                print(f"{removed_pokemon.left} removed")
-                current_pokemon = removed_pokemon.left
+        if key < current_pokemon.entry:
+            current_pokemon.left = self._rec_remove(current_pokemon.left, key)
+            return current_pokemon
 
-            if removed_pokemon.right != None and removed_pokemon.left != None:
-                two_child_removed_pokemon = removed_pokemon
-                self.remove(two_child_removed_pokemon.right, key)
-                if two_child_removed_pokemon.entry < two_child_removed_pokemon.right.entry:
-                    self.remove(two_child_removed_pokemon.right, key)
-                    if two_child_removed_pokemon.right == None:
-                        print(f"{removed_pokemon} removed")
-                        removed_pokemon = two_child_removed_pokemon
+        if current_pokemon.entry == key:
+            temp = current_pokemon
+            if temp.right == None and temp.left != None:
+                print(f"{temp.left.entry} removed")
+                return temp.left
 
+            if temp.right != None and temp.left == None:
+                print(f"{temp.right.entry} removed")
+                return temp.right
+
+            if temp.right == None and temp.left == None:
+                print(f"{temp.entry} removed")
+                return None
+
+            if temp.right != None and temp.left != None:
+                temp = current_pokemon.left
+                while temp.right is not None:
+                    temp = temp.right
+                current_pokemon.entry = temp.entry
+                current_pokemon.left = self._rec_remove(current_pokemon.left, current_pokemon.entry)
+                print(f"{current_pokemon.entry} removed")
+                return current_pokemon
             
+    def search(self, key):
+        self._rec_search(self.root, key)
 
-    def search(self, current_pokemon, key):
-        try:
-            if current_pokemon.entry < key:
-                if current_pokemon.left != None:
-                    self.search(current_pokemon.right, key)
+    def _rec_search(self, cur, key):
+        if cur != None:
+            if key < cur.entry:
+                if cur.left != None:
+                    self._rec_search(cur.left, key)
 
-            if current_pokemon.entry > key:
-                if current_pokemon.right != None:
-                    self.search(current_pokemon.left, key)
+            elif key > cur.entry:
+                if cur.right != None:
+                    self._rec_search(cur.right, key)
 
-            if current_pokemon.entry == key:
-                print(current_pokemon.entry)
-
-        except AttributeError:
-            print("Nothing here")
+            elif cur.entry == key:
+                print("Pokemon found:\n"
+                f"{cur.entry}")
+                return
+        else:
+            return

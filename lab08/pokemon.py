@@ -1,3 +1,11 @@
+"""
+Author: Preston Dahl 
+Date: 2026-11-16
+Lab: lab08
+Last modified: 2026-11-16
+Purpose: Pokemon class that allows the ID of the Pokemon to be compared for improved sorting, and a vaild entry when printed.
+"""
+
 class Pokemon:
     def __init__(self, cur_a_name, cur_poke_id, cur_j_name):
         # Current names and ID are thrown in to use for various methods

@@ -1,3 +1,10 @@
+"""
+Author: Preston Dahl 
+Date: 2026-11-16
+Lab: lab08
+Last modified: 2026-11-16
+Purpose: Makes every function is required to make a full Pokedex like add, search, print, copy, and remove.
+"""
 
 from pokedex_internals import Pokedex_internals
 from pokemon import Pokemon

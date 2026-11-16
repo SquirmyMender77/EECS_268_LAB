@@ -1,3 +1,11 @@
+"""
+Author: Preston Dahl 
+Date: 2026-11-16
+Lab: lab08
+Last modified: 2026-11-16
+Purpose: Main Pokedex Class that implements a pokedex_manu, handles a file input, and starts the pokedex_funcs Class
+"""
+
 from pokedex_funcs import pokedex_funcs
 from pokemon import Pokemon
 
